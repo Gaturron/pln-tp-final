@@ -18,7 +18,7 @@ class DcwrapperSpider(BaseSpider):
         for site in sites:
             item = DcwrapperItem()
             item['title'] = site.select('a/text()').extract()
-            item['link'] = site.select('a/@href').extract()
-            item['desc'] = site.select('text()').extract()
+            #item['link'] = site.select('a/@href').extract()
+            #item['desc'] = site.select('text()').extract()
             items.append(item)
         return items
