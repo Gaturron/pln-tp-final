@@ -7,8 +7,7 @@ class DcwrapperSpider(BaseSpider):
     name = "dmoz.org"
     allowed_domains = ["dmoz.org"]
     start_urls = [
-        "http://www.dmoz.org/Computers/Programming/Languages/Python/Books/",
-        "http://www.dmoz.org/Computers/Programming/Languages/Python/Resources/"
+        "http://www.dc.uba.ar/aca/materias/obligatorias"
     ]
 
     def parse(self, response):
@@ -21,4 +20,5 @@ class DcwrapperSpider(BaseSpider):
             #item['link'] = site.select('a/@href').extract()
             #item['desc'] = site.select('text()').extract()
             items.append(item)
+            print 'HOLA: '+str(item['title'])
         return items
