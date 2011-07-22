@@ -27,18 +27,35 @@ class DcwrapperSpider(BaseSpider):
         
     def parse(self, response):
         hxs = HtmlXPathSelector(response)
-        sites = hxs.select('//ul/li')
+        sites = hxs.select('//div[@id="parent-fieldname-text"]/ul/li')
+        
+        #dejo items para saber como lo hace la libreria         
         items = []
+        materias = []
+
+        #abrimos la consulta para agregar cada nombre
+        c = self.connection.cursor()
+
         for site in sites:
             item = DcwrapperItem()
             item['title'] = site.select('a/text()').extract()
             #item['link'] = site.select('a/@href').extract()
             #item['desc'] = site.select('text()').extract()
-            items.append(item)
-            print 'HOLA: '+str(item['title'])
-        return items
+            for i in item['title']:
+                print 'HOLA: '+str(i.encode("utf-8"))
+                materias.append(str(i.encode("utf-8")))
 
-    def __del__(self):
+                s = 'INSERT INTO materias (nombre) VALUES(\''+str(i.encode("utf-8"))+'\')'
+                print s
+                c.execute(s)
+            items.append(item)
+    
+        c.close()
+        
         self.connection.commit()
         self.connection.close()
+        print materias        
         print 'Fin: '
+
+        return items
+
