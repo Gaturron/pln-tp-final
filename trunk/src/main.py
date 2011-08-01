@@ -1,5 +1,5 @@
 from DCWrapper.spiders import *
 import os
 
-os.system('scrapy crawl dmoz.org')
+os.system('scrapy crawl materias')
 
