@@ -141,6 +141,7 @@ class DcwrapperSpider(BaseSpider):
             res = ''            
             for x in l:
                 res = res+' '+str(x)
+            res = res.lstrip()
             return res
 
         materia = concatenar(materia)
