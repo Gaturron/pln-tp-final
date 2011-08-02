@@ -33,4 +33,10 @@ class PlanSpider(BaseSpider):
 #            for i in materias1:
 #                print 'Materias: '+str(i.encode('utf-8'))
 
-        print texto
+	def sacar_largos(x): return (4<len(x)<40)
+	texto = filter(sacar_largos, texto)
+	def sacar_espaciosos(x): 
+		if(re.search('  ', x)): return 0
+		else: return 1 
+	texto = filter(sacar_espaciosos, texto)
+	print texto
