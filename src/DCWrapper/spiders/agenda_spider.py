@@ -70,12 +70,12 @@ class AgendaSpider(BaseSpider):
                         descr = descripcion.pop(0)
                         txt.append([descr])
         texto[30].append([])
-        for txt in texto[31:55]:
+        for txt in texto[31:60]:
                 if(len(descripcion)>0):
                         descr = descripcion.pop(0)
                         txt.append([descr])
 	descripcion.pop(0)
-        for txt in texto[55:]:
+        for txt in texto[60:]:
                 if(len(descripcion)>0):
                         descr = descripcion.pop(0)
                         txt.append([descr])
