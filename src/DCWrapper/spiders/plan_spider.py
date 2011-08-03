@@ -39,4 +39,19 @@ class PlanSpider(BaseSpider):
 		if(re.search('  ', x)): return 0
 		else: return 1 
 	texto = filter(sacar_espaciosos, texto)
+        def sacar_simbolo(txt): 
+                p = re.compile('[(*)]')
+                txt = p.sub('', txt)
+                return txt.lstrip()
+        texto = map(sacar_simbolo, texto)
+        def sacar_minusculas(x): 
+                if(len(x)>1): return (x[0] == x[0].capitalize())
+                else: 0
+        texto = filter(sacar_minusculas, texto)
+        def sacar_ver(txt): 
+                p = re.compile(' ver ')
+                txt = p.sub('', txt)
+                return txt
+        texto = filter(sacar_ver, texto)
+
 	print texto
