@@ -75,11 +75,62 @@ class AgendaSpider(BaseSpider):
                         descr = descripcion.pop(0)
                         txt.append([descr])
 	descripcion.pop(0)
-        for txt in texto[60:]:
+        for txt in texto[60:78]:
                 if(len(descripcion)>0):
                         descr = descripcion.pop(0)
                         txt.append([descr])
-	for i in texto:
+        texto[78].append([])        
+        for txt in texto[79:86]:
+                if(len(descripcion)>0):
+                        descr = descripcion.pop(0)
+                        txt.append([descr])
+        texto[86].append([])        
+	texto[87].append([])
+        for txt in texto[88:]:
+                if(len(descripcion)>0):
+                        descr = descripcion.pop(0)
+                        txt.append([descr])
+
+        #texto dividido
+
+        #sacamos espacios al pedo
+        for txt in texto:
+                for frase in txt:
+                        if (len(frase)>0):                
+                                p = re.compile('\'')
+                                frase[0] = p.sub('', frase[0])    
+                                frase[0] = (frase[0].lstrip()).rstrip()
+		
+        for i in texto:
 		print i
 		print '\n'
-	print 'otros: '+str(otros)
+
+        #guardemos la informacion
+        #create table agenda (id INTEGER PRIMARY KEY, titulo TEXT, lugar TEXT, empieza TEXT, termina TEXT, descripcion TEXT);
+        self.connection = sqlite3.connect('./database/base1.db')
+        self.connection.text_factory = str
+
+        c = self.connection.cursor()
+
+        for txt in texto:
+                titulo = str( ((txt[0])[0]).encode('utf-8') )
+                lugar = str( ((txt[1])[0]).encode('utf-8') )
+                empieza = str( ((txt[2])[0]).encode('utf-8') )
+                termina = str( ((txt[3])[0]).encode('utf-8') )
+                
+                if(len(txt[4]) > 0): descripcion = str( ((txt[4])[0]).encode('utf-8') )
+                else: descripcion = ''   
+
+                params = (titulo, lugar, empieza, termina, descripcion, )
+                rows = c.execute('SELECT * FROM agenda WHERE titulo=? AND lugar=? AND empieza=? AND termina=? AND descripcion=? ', params)
+                if(len(rows.fetchall()) == 0):
+                        s = 'INSERT INTO agenda (titulo, lugar, empieza, termina, descripcion) VALUES(\''+str(titulo)+'\', \''+str(lugar)+'\', \''+str(empieza)+'\', \''+str(termina)+'\', \''+str(descripcion)+'\')'
+                        print s                        
+                        c.execute(s)
+
+        c.close()
+        
+        self.connection.commit()
+        self.connection.close()
+
+
