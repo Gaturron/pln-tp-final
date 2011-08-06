@@ -157,7 +157,7 @@ class DcwrapperSpider(BaseSpider):
         print 'Horario: '+str(horario)
 
         #guardemos la informacion
-        self.connection = sqlite3.connect('./database/base1.db')
+        self.connection = sqlite3.connect('./database/base2.db')
         self.connection.text_factory = str
 
         c = self.connection.cursor()
