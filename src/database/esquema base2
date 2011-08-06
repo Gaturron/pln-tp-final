@@ -1,0 +1,5 @@
+
+create table profesores (id INTEGER PRIMARY KEY, nombre TEXT);
+create table materias (id INTEGER PRIMARY KEY, nombre TEXT, horario TEXT, puntaje TEXT);
+create table dicta (idp INTEGER, idm INTEGER, rango TEXT, PRIMARY KEY(idp, idm));
+create table agenda (id INTEGER PRIMARY KEY, titulo TEXT, nombre TEXT, tipo TEXT, lugar TEXT, empieza TEXT, termina TEXT, descripcion TEXT, url TEXT);
