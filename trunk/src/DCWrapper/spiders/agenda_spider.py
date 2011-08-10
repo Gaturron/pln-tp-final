@@ -6,7 +6,7 @@ from scrapy.http import *
 
 from DCWrapper.items import DcwrapperItem
 
-import sqlite3, re
+import sqlite3, re, string
 
 class AgendaSpider(BaseSpider):
     name = "agenda"
@@ -43,7 +43,8 @@ class AgendaSpider(BaseSpider):
             nombre = ''
             
 
-            eventos = ['Defensa Tesis Licenciatura', 'Defensa Tesis Doctorado', 'Charla', 'Defensa Tesis', 'Seminario', 'Curso' ]
+            eventos = ['Defensa Tesis Licenciatura', 'Defensa Tesis Doctorado', 'Charla', 'Defensa Tesis Maestria', 'Seminario', 'Curso' ]
+            
             
             for ev in eventos:
                 if(re.search(ev, str(titulo.encode('utf-8')) )):
@@ -52,6 +53,7 @@ class AgendaSpider(BaseSpider):
                     nombre = p.sub('', titulo)
                     p = re.compile(':')
                     nombre = p.sub('', nombre) 
+                    break
                 
             dicc = {'titulo': titulo, 'tipo': tipo, 'nombre': nombre, 'lugar': lugar, 'empieza': empieza, 'termina': termina, 'url': url }
             textos.append(dicc)            
@@ -133,7 +135,7 @@ class AgendaSpider(BaseSpider):
 
         #guardemos la informacion
         #create table agenda (id INTEGER PRIMARY KEY, titulo TEXT, nombre TEXT, tipo TEXT, lugar TEXT, empieza TEXT, termina TEXT, descripcion TEXT, url TEXT);
-        self.connection = sqlite3.connect('./database/base2.db')
+        self.connection = sqlite3.connect('./database/base3.db')
         self.connection.text_factory = str
 
         c = self.connection.cursor()

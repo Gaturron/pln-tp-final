@@ -19,18 +19,9 @@ class DcwrapperSpider(BaseSpider):
     def __init__(self):
 
         print 'Inicio: '
-        self.connection = sqlite3.connect('./database/base.db')
+        self.connection = sqlite3.connect('./database/base3.db')
         self.connection.text_factory = str
-
-#       para saber que hay el la tabla antes de agregar la info        
-#        c = self.connection.cursor()
-#        rows = c.execute('SELECT * FROM materias')
-#        for row in rows:
-#            print str(row[0])
-#            print str(row[1])
-#        
-#        c.close()
-        
+      
     def parse(self, response):
         hxs = HtmlXPathSelector(response)
         #sites = hxs.select('//div[@id="parent-fieldname-text"]/ul/li')
@@ -50,15 +41,6 @@ class DcwrapperSpider(BaseSpider):
 
             for i in item['title']:
                 print 'Item title: '+str(i.encode('utf-8'))
-
-#                nombre = (str(i.encode('utf-8')),)
-#                rows = c.execute('SELECT * FROM materias WHERE nombre=?', nombre)
-#                
-#                if(len(rows.fetchall()) == 0):
-#                        s = 'INSERT INTO materias (nombre) VALUES(\''+str(i.encode("utf-8"))+'\')'
-#                        print s
-#                        c.execute(s)
-#                yield item
 
             for i in item['link']:
                 request = Request(i, callback=self.parseMateria, errback=self.mierda)
@@ -157,7 +139,7 @@ class DcwrapperSpider(BaseSpider):
         print 'Horario: '+str(horario)
 
         #guardemos la informacion
-        self.connection = sqlite3.connect('./database/base2.db')
+        self.connection = sqlite3.connect('./database/base3.db')
         self.connection.text_factory = str
 
         c = self.connection.cursor()
@@ -258,34 +240,4 @@ class DcwrapperSpider(BaseSpider):
         
         self.connection.commit()
         self.connection.close()
-
-
-        #def enc(x): return str(x.encode('utf-8'))
-        #texto = map(enc, texto) 
-        #print 'Texto: '+str(texto)            
-
-            #saco los espacios de mas
-            #p = re.compile(' [ ]+')
-            #texto = p.sub(' ', texto)
-
-            #buscamos puntaje
-            #if(re.search('grado', texto)): print 'ACAAAAAAAAAAAAAAAAAAAAA:'+texto
-
-            #print 'Item title2: '+texto
-
-            #texto = str(site.extract().encode('utf-8'))
-            #texto = re.split(' [ ]+', texto)
-            #texto = re.split('Ayudantes de Primera:', texto)
-            #texto = re.split('Ayudantes de Segunda:', texto)            
-            #texto = re.split('Horarios', texto)
-            #def enc(x): return str(x.encode('utf-8'))
-            #texto = map(enc, texto)            
-            #print texto
-
-        #Horario:
-#        sites = hxs.select('//div[@id="content"]/div[@id="parent-fieldname-text"]')
-#        for site in sites:
-#            item = DcwrapperItem()
-#            item['title'] = site.select('p/text()').extract()
-#            print '+Horario:'+str(item)
 
